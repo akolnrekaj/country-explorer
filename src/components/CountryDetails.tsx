@@ -27,7 +27,7 @@ const CountryDetails = () => {
       try {
         if (code) {
           const data = await fetchCountryByCode(code);
-          setCountry(data[0]); // API vraća array
+          setCountry(data[0]);
         }
       } finally {
         setLoading(false);
