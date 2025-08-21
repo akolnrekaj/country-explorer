@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import Layout from "./layouts/Layout.tsx";
 import CountryList from "./components/CountryList.tsx";
+import CountryDetails from "./components/CountryDetails.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<Layout />}>
             <Route index element={<CountryList />} />
             <Route path="/countryList" element={<CountryList />} />
+            <Route path="/country/:code" element={<CountryDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
