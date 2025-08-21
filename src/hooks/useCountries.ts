@@ -13,7 +13,7 @@ export const useCountries = () => {
         setCountries(data);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
-        setError("Greška pri dohvaćanju podataka.");
+        setError("Error while fetching data");
       } finally {
         setLoading(false);
       }

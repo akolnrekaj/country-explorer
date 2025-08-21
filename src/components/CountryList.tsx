@@ -2,8 +2,8 @@ import { SimpleGrid, Box, Image, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useCountries } from "../hooks/useCountries";
 
-export interface Country {
-  cca3: string; // 3-letter country code
+interface Country {
+  cca3: string;
   name: {
     common: string;
     official: string;
@@ -12,9 +12,9 @@ export interface Country {
     png: string;
     svg: string;
   };
-  region: string;
-  population?: number;
   capital?: string[];
+  region: string;
+  population: number;
 }
 
 const CountryList = () => {
@@ -36,7 +36,7 @@ const CountryList = () => {
           textAlign="center"
           cursor="pointer"
           _hover={{ transform: "scale(1.05)", transition: "0.2s" }}
-          onClick={() => navigate(`/country/${country.cca3}`)} // 🔑 klik vodi na detalje
+          onClick={() => navigate(`/country/${country.cca3}`)}
         >
           <Image
             src={country.flags.png}
