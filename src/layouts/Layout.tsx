@@ -17,22 +17,20 @@ const Layout = () => {
           Country List
         </RouterNavLink>
         <RouterNavLink
-          to="/footer"
+          to="/contact"
           style={{
             fontWeight: "bold",
             color: "#3182ce",
             textDecoration: "none",
           }}
         >
-          Kontakt
+          Contact
         </RouterNavLink>
       </HStack>
 
       <Box flex="1" p={4}>
         <Outlet />
       </Box>
-
-      {/*footer */}
       <Box bg="gray.200" p={4}>
         <VStack gap={2}>
           <Text fontWeight="bold">Contact us</Text>

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Box, Image, Text, VStack, Spinner } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchCountryByCode } from "../utils/api";
 
 interface Country {
@@ -14,29 +14,22 @@ interface Country {
   };
   capital?: string[];
   region: string;
+  subregion: string;
   population: number;
+  currencies: Record<string, { name: string }>;
+  languages: Record<string, string>;
 }
 
 const CountryDetails = () => {
   const { code } = useParams();
-  const [country, setCountry] = useState<Country | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        if (code) {
-          const data = await fetchCountryByCode(code);
-          setCountry(data[0]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, [code]);
+  const { data, isLoading, isError, error } = useQuery<Country>({
+    queryKey: ["country", code],
+    queryFn: () => fetchCountryByCode(code!),
+    enabled: !!code,
+  });
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Box textAlign="center" mt={10}>
         <Spinner size="xl" />
@@ -45,23 +38,36 @@ const CountryDetails = () => {
     );
   }
 
-  if (!country) {
-    return <Text>Country not found</Text>;
+  if (isError) {
+    return (
+      <Text color="red.500" textAlign="center">
+        {(error as Error).message}
+      </Text>
+    );
+  }
+
+  if (!data) {
+    return <Text textAlign="center">Country not found</Text>;
   }
 
   return (
     <VStack gap={4}>
-      <Image
-        src={country.flags.png}
-        alt={country.name.common}
-        boxSize="200px"
-      />
+      <Image src={data.flags.png} alt={data.name.common} boxSize="200px" />
       <Text fontSize="2xl" fontWeight="bold">
-        {country.name.common}
+        {data.name.common}
       </Text>
-      <Text>Capital: {country.capital?.[0]}</Text>
-      <Text>Region: {country.region}</Text>
-      <Text>Population: {country.population.toLocaleString()}</Text>
+      <Text>Official Name: {data.name.official}</Text>
+      <Text>Capital: {data.capital?.[0]}</Text>
+      <Text>Region: {data.region}</Text>
+      <Text>Subregion: {data.subregion}</Text>
+      <Text>Population: {data.population.toLocaleString()}</Text>
+      <Text>
+        Currencies:{" "}
+        {Object.values(data.currencies)
+          .map((c) => c.name)
+          .join(", ")}
+      </Text>
+      <Text>Languages: {Object.values(data.languages).join(", ")}</Text>
     </VStack>
   );
 };
