@@ -65,7 +65,8 @@ const CountryList = () => {
           <Image
             src={country.flags.png}
             alt={country.name.common}
-            boxSize="100px"
+            w="300px"
+            h="200px"
             mx="auto"
           />
           <Text fontWeight="bold" mt={2}>

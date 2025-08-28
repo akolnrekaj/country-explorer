@@ -5,7 +5,16 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 const Layout = () => {
   return (
     <VStack minH="100vh" justify="space-between" align="stretch">
-      <HStack gap={4} align="center" p={4} bg="gray.100">
+      <HStack
+        gap={4}
+        align="center"
+        p={4}
+        bg="gray.100"
+        position="sticky"
+        top={0}
+        zIndex="sticky"
+        boxShadow="md"
+      >
         <RouterNavLink
           to="/"
           style={{
